@@ -1,0 +1,16 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/hrbot-api', './backend']
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/hrbot-api']
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - hrbot-api
+      - --image=gcr.io/$PROJECT_ID/hrbot-api
+      - --region=asia-south1
+      - --allow-unauthenticated
+      - --set-env-vars=ANTHROPIC_API_KEY=$$ANTHROPIC_KEY
+    secretEnv: ['ANTHROPIC_KEY']
