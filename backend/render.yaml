@@ -9,16 +9,3 @@ services:
         value: 3.10.0
       - key: ANTHROPIC_API_KEY
         sync: false
-      - key: DATABASE_URL
-        fromDatabase:
-          name: hrbot-db
-          property: connectionString
-    disk:
-      name: chroma-disk
-      mountPath: /opt/render/project/src/chroma_db
-      sizeGB: 1
-
-databases:
-  - name: hrbot-db
-    databaseName: hrbot
-    user: hrbot_user
